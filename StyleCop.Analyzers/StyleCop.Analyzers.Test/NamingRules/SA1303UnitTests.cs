@@ -216,6 +216,21 @@ public enum SpecialFile
             await this.VerifyCSharpDiagnosticAsync(testCode, EmptyDiagnosticResults, CancellationToken.None).ConfigureAwait(false);
         }
 
+        [Fact]
+        public async Task TestLocalConstsDoNotReportAsync()
+        {
+            var testCode = @"
+public class SomeClass
+{
+    public void SomeMethod()
+    {
+        const string url = ""value"";
+    }
+}";
+
+            await this.VerifyCSharpDiagnosticAsync(testCode, EmptyDiagnosticResults, CancellationToken.None).ConfigureAwait(false);
+        }
+
         protected override IEnumerable<DiagnosticAnalyzer> GetCSharpDiagnosticAnalyzers()
         {
             yield return new SA1303ConstFieldNamesMustBeginWithUpperCaseLetter();
